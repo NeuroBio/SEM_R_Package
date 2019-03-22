@@ -7,7 +7,6 @@
 #' @param numTemplates the number of song templates to create
 #' @keywords song-template
 #' @export
-
 GenerateNovelSong <- function(P, numTemplates){
   #generares songs for the population based on a likely initial rep size;
   #figures out the probability of inheriting the syllables, randomly samples the chance
