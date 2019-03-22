@@ -8,7 +8,6 @@
 #' @param population the population of birds
 #' @keywords birth death
 #' @export
-#' BirthDeathCycle()
 BirthDeathCycle <- function(P, population){
   #Send Birds to circus via Age or Random with probability based on Learning penalty
   if(P$DStrat){
@@ -53,7 +52,6 @@ BirthDeathCycle <- function(P, population){
 #' @param vacancy territories that need to be filled
 #' @keywords birth
 #' @export
-#' ChooseFathers()
 ChooseFathers <- function(P, population, vacancy){
   #Picks sires for populating vacant territories
   #Use only living males
@@ -89,7 +87,6 @@ ChooseFathers <- function(P, population, vacancy){
 #' @param usableInd males that are alive and know at least one syllable
 #' @keywords birth female-choice
 #' @export
-#' GetProbability()
 GetProbability <- function(P, population, usableInd){
   Choices <- population$Males[usableInd,]
   #Noise
@@ -126,7 +123,6 @@ GetProbability <- function(P, population, usableInd){
 #' @param population  the population of birds
 #' @keywords death
 #' @export
-#' RandomDeath()
 RandomDeath <- function(P, population){
   #Send a paramaterized percentage of random birds to the circus
   NumLostBirds <- round(P$numBirds*P$PDead, digits=0)
@@ -144,7 +140,6 @@ RandomDeath <- function(P, population){
 #' @param population  the population of birds
 #' @keywords death
 #' @export
-#' AgeDeath()
 AgeDeath <- function(P, population){
   #Send birds to the circus based on retirement age
   DeadIndex <- vector("list")
@@ -184,7 +179,6 @@ AgeDeath <- function(P, population){
 #' @param lrnThsh a vector of learning thresholds in the population
 #' @keywords death
 #' @export
-#' LearningThrshPenalty()
 LearningThrshPenalty <- function(P, lrnThsh){
   PickChance <- P$Lpen/(P$MAge-1)*(lrnThsh-1)+1
   PickChance[which(PickChance < 1)] <- 1
@@ -200,7 +194,6 @@ LearningThrshPenalty <- function(P, lrnThsh){
 #' @param prob the data structure from the population that keeps track of survival probabilities
 #' @keywords death survival-curve
 #' @export
-#' UpdateProbabilities()
 UpdateProbabilities <- function(P, chicks, prob){
   if(length(prob$AgeDeathProb)==1){#only chick survival
     return(prob)
