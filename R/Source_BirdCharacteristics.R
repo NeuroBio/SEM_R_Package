@@ -7,7 +7,6 @@
 #' @param numTemplates the number of song templates to create
 #' @keywords song-template
 #' @export
-#' GenerateNovelSong()
 
 GenerateNovelSong <- function(P, numTemplates){
   #generares songs for the population based on a likely initial rep size;
@@ -30,7 +29,6 @@ GenerateNovelSong <- function(P, numTemplates){
 #' @param femaleSong a matrix of syllable vectors
 #' @keywords female-choice
 #' @export
-#' AssignFemale()
 AssignFemale <- function(P, maleSong, femaleSong){
   #Females pick mates with probability mased on how well each male
   #matches her individual template
@@ -70,7 +68,6 @@ AssignFemale <- function(P, maleSong, femaleSong){
 #' @param femaleSong a syllable vector
 #' @keywords female-choice
 #' @export
-#' TestMatch()
 TestMatch <- function(P, maleSong, femaleSong){
   #find the mismatch between the two songs.
 
@@ -102,7 +99,6 @@ TestMatch <- function(P, maleSong, femaleSong){
 #' @param P a list of parameters
 #' @keywords song-template
 #' @export
-#' CreateFemaleSongs()
 CreateFemaleSongs <- function(P){
   if(!P$UniMat){
     #templates with the same variation as the original male population
@@ -125,7 +121,6 @@ CreateFemaleSongs <- function(P){
 #' @param fSongs a matrix of syllable vectors
 #' @keywords song-template
 #' @export
-#' EstablishDialects()
 EstablishDialects <- function(P, fSongs){
   #Set up the dialects; they are derivatives of the initial song
   #offset by the initial repsize
@@ -373,7 +368,6 @@ OneStepDirections <- function(R, C){
 #' @param firstStep the output form OneStepDirections()
 #' @keywords locality
 #' @export
-#' NextStepDirectionsMain()
 NextStepDirections <- function(currentStep, firstStep){
   #serially expand the steps away from a target cell by one by taking the
   #indicies from cells that are currently connected to the target cell
@@ -395,7 +389,6 @@ NextStepDirections <- function(currentStep, firstStep){
 #' @param notAvailable vectors of males that cannot be chosen
 #' @keywords locality
 #' @export
-#' LocalSearch()
 LocalSearch <- function(P, population, targetMale, notAvailable){
     for(i in 1:max(P$R,P$C)){
     CurrentIndex <- population$Directions[[i]][[targetMale]]
