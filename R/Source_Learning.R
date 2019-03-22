@@ -11,7 +11,6 @@
 #' @param chanceInv the learners' chance to invent
 #' @keywords song-learning
 #' @export
-#' LearningProcess()
 LearningProcess <- function(P, newSongs, tutorSyllables, accuracy, chanceInv){
   for(i in seq_along(accuracy)){
     AccRoll <- runif(length(tutorSyllables[[i]]))
@@ -51,7 +50,6 @@ LearningProcess <- function(P, newSongs, tutorSyllables, accuracy, chanceInv){
 #' @param chicks song-learning traits of chicks form the population ($Males)
 #' @keywords song-learning
 #' @export
-#' VerticalSongLearning()
 VerticalSongLearning <- function(P, templates, chicks){
   #Method by which chicks inherit their father's song; accuracy
   #based on inherited accuracy and parameterized noise
@@ -82,7 +80,6 @@ VerticalSongLearning <- function(P, templates, chicks){
 #' @param vacancy the indicies of dead birds
 #' @keywords song-learning
 #' @export
-#' ObliqueLearning()
 ObliqueLearning <- function(P, population, vacancy){
   #test which birds can and will learn
   Learners <- GetLearners(P, population, vacancy)
@@ -113,7 +110,6 @@ ObliqueLearning <- function(P, population, vacancy){
 #' @param vacancy the indicies of dead birds
 #' @keywords song-learning
 #' @export
-#' ConsensusLearning()
 ConsensusLearning <- function(P, population, learners, vacancy){
 
   #Get ConNoTut number of tutors
@@ -165,7 +161,6 @@ ConsensusLearning <- function(P, population, learners, vacancy){
 #' @param consensusSong vector of the number of tutors that sang each syllable.
 #' @keywords song-learning
 #' @export
-#' CalcFractional()
 CalcFractional <- function(P, consensusSong){
   if(P$ConsenS == "Conform"){
     Conform <- consensusSong/P$ConNoTut
@@ -186,7 +181,6 @@ CalcFractional <- function(P, consensusSong){
 #' @param learners the indicies of birds that will attempt to learn
 #' @keywords song-learning
 #' @export
-#' OverLearn()
 OverLearn <- function(P, population, learners){
   for(i in 1:P$OLNoTut){
     Tutors <- ChooseTutors(P, population, learners, learners)
@@ -206,7 +200,6 @@ OverLearn <- function(P, population, learners){
 #' @param fatherInd the indicies of the male that fathered the resident male chicks
 #' @keywords song-learning
 #' @export
-#' FemaleEvolve()
 FemaleEvolve <- function(P, population, vacancy, fatherInd){
   #when a male dies, so does his female, she is replaced
   #but a feamle with a new temaplte based on teh breeding males
@@ -239,7 +232,6 @@ FemaleEvolve <- function(P, population, vacancy, fatherInd){
 #' @param vacancy the indicies of dead birds
 #' @keywords song-learning
 #' @export
-#' GetLearners()
 GetLearners <- function(P, population, vacancy){
   #get indicies of those who can learn, lest if they are capable
   #test whether they encouter atutor and get indicies of learners
@@ -259,7 +251,6 @@ GetLearners <- function(P, population, vacancy){
 #' @param males the bird trait data.frame from the population of birds ($Males)
 #' @keywords song-learning
 #' @export
-#' TestLearningThreshold()
 TestLearningThreshold <- function(P, males){
   #Get birds less than threshold
   males$LrnThsh <- ifelse(males$LrnThsh >= 1,
@@ -283,7 +274,6 @@ TestLearningThreshold <- function(P, males){
 #' @param learners indicies of males that are alive and young enough to learn
 #' @keywords song-learning
 #' @export
-#' CheckEncouter()
 CheckEncouter <- function(P, learners){
   #check whether males failed to meet a tutor
   ChanceEncoun <- runif(length(learners))
@@ -301,7 +291,6 @@ CheckEncouter <- function(P, learners){
 #' @param misc a matrix of positions of other birds that are excluded for some reason (e.g. already for consensus tutors)
 #' @keywords song-learning
 #' @export
-#' ChooseTutors()
 ChooseTutors <- function(P, population, learners, vacancy, misc=rep(0,length(learners))){
   #Males who cannot be tutors
   SonglessFledge <- unique(c(vacancy, which(population$Males$SylRep == 0),which(population$Males$Age == 0)))
@@ -336,7 +325,6 @@ ChooseTutors <- function(P, population, learners, vacancy, misc=rep(0,length(lea
 #' @param learners the indicies of birds that will attempt to learn
 #' @keywords song-learning
 #' @export
-#' OneTutorLearning()
 OneTutorLearning <- function(P, population, tutors, learners){
   #Set up for the Learning process
   LearnerSongs <- matrix(population$MSongs[learners,],ncol=P$MaxRSize, nrow=length(learners))
@@ -374,7 +362,6 @@ OneTutorLearning <- function(P, population, tutors, learners){
 #' @param songs a matrix of tutor syllable vectors
 #' @keywords song-learning
 #' @export
-#' ListeningTest()
 ListeningTest <- function(P, songs){
   #Test whether repsize beyond listening threshold
   if(P$LisThrsh >= .999 && P$LisThrsh <1  || P$LisThrsh == P$MaxRSize){#learn full rep
@@ -414,7 +401,6 @@ ListeningTest <- function(P, songs){
 #' @param learnerSongs a matrix of learner syllable vectors
 #' @keywords song-learning
 #' @export
-#' DropSyllables()
 DropSyllables <- function(chanceFor, tutorSongs, learnerSongs){
   #For birds with a mimic strategy to learning, allows for a chance
   #to drop syllables if present in learner vocab and not what he heard
@@ -437,7 +423,6 @@ DropSyllables <- function(chanceFor, tutorSongs, learnerSongs){
 #' @param learners the indicies of birds that will attempt to learn
 #' @keywords song-leanring
 #' @export
-#' UpdateSongTraits()
 UpdateSongTraits <- function(P, population, learners){
   #update params for learners
   if(length(learners) > 1){

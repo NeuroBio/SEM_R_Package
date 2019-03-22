@@ -171,7 +171,6 @@ EstablishDialects <- function(P, fSongs){
 #' @param mAge the max age of the population
 #' @keywords survival-curve
 #' @export
-#' CalculateProportion()
 CalculateProportion <- function(n=400, t=1, pc=.3, mAge=20){
   #get roots based on set values
   Coeff <- c(t-n, rep(t,mAge-1), (t/pc)+t)
@@ -198,7 +197,6 @@ CalculateProportion <- function(n=400, t=1, pc=.3, mAge=20){
 #' @param mAge the max age of the population
 #' @keywords survival-curve
 #' @export
-#' CalculateAllGen()
 CalculateAllGen <- function(pa, pc, t, mAge){
   N0 <-t/(pc*pa^mAge)
   N1 <- N0*pc
@@ -213,7 +211,6 @@ CalculateAllGen <- function(pa, pc, t, mAge){
 #' @param P a list of parameters
 #' @keywords survival-curve
 #' @export
-#' InitAgeDistribution()
 InitAgeDistribution <- function(P){
   if(P$DStrat){
     AgeRates <- GetAgeRates(P)
@@ -231,7 +228,6 @@ InitAgeDistribution <- function(P){
 #' @param P a list of parameters
 #' @keywords survival-curve
 #' @export
-#' GetAgeRates()
 GetAgeRates <- function(P){
   #calculate birds in all states
   SurvivalRates <- CalculateAllGen(P$InitProp, P$Pc, P$DeadThrsh, P$MAge)
@@ -251,7 +247,6 @@ GetAgeRates <- function(P){
 #' @param ageRates the output from GetAgeRates()
 #' @keywords survival-curve
 #' @export
-#' GetAgeGroup()
 GetAgeGroup <- function(P, ageRates){
   #AgeUp <- runif(P$numBirds)
   AgeGroup <- list()
@@ -285,7 +280,6 @@ GetAgeGroup <- function(P, ageRates){
 #' @param P a list of parameters
 #' @keywords locality
 #' @export
-#' FinalDirections()
 FinalDirections <- function(P){
   #get the indicies directly connected to a cell
   DirList <- rep(list(NA),max(P$R,P$C)-(P$Steps-1))
@@ -315,7 +309,6 @@ FinalDirections <- function(P){
 #' @param C columns
 #' @keywords locality
 #' @export
-#' OneStepDirections()
 OneStepDirections <- function(R, C){
   CellDirections <- as.list(1:(R*C))
   #Find ind in the center and give all 8 directions

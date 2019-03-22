@@ -20,7 +20,6 @@
 #' @param thin how often to sample a step of song data for the SongEvolve() plots; This is graphically intensive when there are a lot of syllables (default is 500), so ideally do not plot more than 100-200 time steps.
 #' @keywords stats-plotting
 #' @export
-#' QuickSEMPlot()
 QuickSEMPlot <- function(P, path, rep=TRUE, acc=P$SAcc, lrnThsh=P$SLrn, match=P$SMat,
                       chanceInv=P$SCtI, chanceFor=P$SCtF, age=P$SAge,
                       mSong=P$SMSng, fSong=P$SFSng, autoLayout=TRUE,
@@ -88,7 +87,6 @@ QuickSEMPlot <- function(P, path, rep=TRUE, acc=P$SAcc, lrnThsh=P$SLrn, match=P$
 #' @param ylab y-axis label for plot()
 #' @keywords stats-plotting
 #' @export
-#' TraitPlot()
 TraitPlot <- function(trait, xlab="Time Steps", ylab){
   #processing
   Maxs <- apply(trait, 2, max)
@@ -122,7 +120,6 @@ TraitPlot <- function(trait, xlab="Time Steps", ylab){
 #' @param male whether male songs are being plotted; affects the y-axis label
 #' @keywords stats-plotting
 #' @export
-#' SongPlot()
 SongPlot <- function(P, songs, thin = 10, male=TRUE){
   if(male){
     Type <- "Male"
@@ -149,7 +146,6 @@ SongPlot <- function(P, songs, thin = 10, male=TRUE){
 #' @param trait a matrix of SEM data from a Basic sim (individual data)
 #' @keywords stats-plotting
 #' @export
-#' TerritoryHeatMap()
 TerritoryHeatMap <- function(P, index=1, trait, max=NA){
   if(is.na(max)){
     max <- max(trait[,index])
@@ -172,7 +168,6 @@ TerritoryHeatMap <- function(P, index=1, trait, max=NA){
 #' @param byGens whether to plots the y axis by generation (TRUE) or timestep (FALSE)
 #' @keywords stats-plotting
 #' @export
-#' FamilyTreePlot()
 FamilyTreePlot <- function(path, byGens=TRUE){
   Name <- read.csv(file.path(path, 'Name.csv'), stringsAsFactors = FALSE)
   FatherName <- read.csv(file.path(path, 'FatherName.csv'), stringsAsFactors = FALSE)
@@ -246,7 +241,6 @@ FamilyTreePlot <- function(path, byGens=TRUE){
 #' @family Cluster Plots
 #' @keywords stats-plotting
 #' @export
-#' QuickClusterPlot()
 QuickClusterPlot <- function(P, path, rep=TRUE, acc=P$SAcc, lrnThsh=P$SLrn, match=P$SMat,
                          chanceInv=P$SCtI, chanceFor=P$SCtF, age=P$SAge, AutoLayout=TRUE){
   if(AutoLayout == TRUE){
@@ -300,7 +294,6 @@ QuickClusterPlot <- function(P, path, rep=TRUE, acc=P$SAcc, lrnThsh=P$SLrn, matc
 #' @family Cluster Plots
 #' @keywords stats-plotting
 #' @export
-#' ClusterCalc()
 ClusterCalc <- function(P, matrix){
   #Calculate the cluster score; lower numbers = more clustered
   #trait is currently in vector format, but these calculations treat it
@@ -320,7 +313,6 @@ ClusterCalc <- function(P, matrix){
 #' @family Cluster Plots
 #' @keywords stats-plotting
 #' @export
-#' ClusterPlot()
 ClusterPlot <- function(P, trait){
   time <- proc.time()
   Timesteps <- length(trait)
@@ -372,7 +364,6 @@ ClusterPlot <- function(P, trait){
 #' @keywords stats-plotting
 #' @family Cluster Plots
 #' @export
-#' GetMaxMat()
 GetMaxMat <- function(trait, R, C){
   trait <- sort(trait)
   N <- length(trait)

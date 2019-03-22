@@ -7,7 +7,6 @@
 #' @param P a list of parameters
 #' @keywords initialize
 #' @export
-#' GenerateFounderMales()
 GenerateFounderMales <- function(P){
   #Generate a population of adult males to begin the simulation
 
@@ -62,7 +61,6 @@ GenerateFounderMales <- function(P){
 #' @param songs a matrix of syllable vectors
 #' @keywords initialize
 #' @export
-#' GenerateAdultBirds()
 GenerateAdultBirds <- function(P, songs){
   #Randomly create a generation 0 bird defined within user-defined presets (P)
   Males <- data.frame(Age=InitAgeDistribution(P))  #only adults
@@ -112,7 +110,6 @@ GenerateAdultBirds <- function(P, songs){
 #' @param vacancy the index of future chicks (aligned with fathers)
 #' @keywords birth
 #' @export
-#' GenerateChicks()
 GenerateChicks <- function(P, fatherInd, territorialMales, vacancy){
   #Create chicks that Inherit paternal values with some
   #parameterized random noise introduced

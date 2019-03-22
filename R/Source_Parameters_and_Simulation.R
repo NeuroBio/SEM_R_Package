@@ -62,7 +62,6 @@
 #' @param Seed seed to run simulation on for reproducibility
 #' @keywords initialize
 #' @export
-#' DefineParameters()
 DefineParameters <- function(Rows=20, Cols=20, Steps=1,
                              InitialSylRepSize=5, PrcntSylOverhang=.2, MaxSylRepSize=500,
                              InitialAccuracy=.7, InherAccuracyNoise=.15,  AccuracyLimits=c(0,1),
@@ -142,7 +141,6 @@ DefineParameters <- function(Rows=20, Cols=20, Steps=1,
 #' @param P a list of parameters
 #' @keywords error-check
 #' @export
-#' CheckP()
 CheckP <- function(P){
   #test if ints within min/max range
   CheckMinMaxInt(P$R, "Rows", 3)
@@ -271,7 +269,6 @@ CheckP <- function(P){
 #' @param absMax absolute max possible for parameter, usually 1
 #' @keywords error-check
 #' @export
-#' CheckTrait()
 CheckTrait <- function(initial, noise, min, max, name, absMax=1){
   if(min >= max){
     stop(paste("The min for", name, "must be less than the max."))
@@ -306,7 +303,6 @@ CheckTrait <- function(initial, noise, min, max, name, absMax=1){
 #' @param int whether a value is an integer
 #' @keywords error-check
 #' @export
-#' CheckMinMaxInt()
 CheckMinMaxInt <- function(value, valueName, min=0, max=1, maxed=FALSE, int=TRUE){
   if(value < min){stop(paste(valuename, "cannot be less than",min,"."))}
   if(maxed){if(value>max){stop(paste(valueName, "cannot be greater than",max,"."))}}
@@ -323,7 +319,6 @@ CheckMinMaxInt <- function(value, valueName, min=0, max=1, maxed=FALSE, int=TRUE
 #' @param NAer whther the value can be NA
 #' @keywords error-check
 #' @export
-#' CheckBool()
 CheckBool <- function(value, valueName, NAer=FALSE){
   if(!NAer){
     if(!(value %in% c(TRUE,FALSE))){
@@ -346,7 +341,6 @@ CheckBool <- function(value, valueName, NAer=FALSE){
 #' @param dependancy2 a secon dependancy that requires teh trait
 #' @keywords error-check
 #' @export
-#' TestRequirement()
 TestRequirement <- function(test, dependancy1 = 0, dependancy2 = FALSE){
   if(is.na(test)){
     if(dependancy1 == 0 && !dependancy2){return(FALSE)}
@@ -366,7 +360,6 @@ TestRequirement <- function(test, dependancy1 = 0, dependancy2 = FALSE){
 #' @param type the simulation type run (accepts any string)
 #' @keywords read-write-run
 #' @export
-#' SaveParam()
 SaveParam <- function(P, folderName, fileName="Parameters", type="Basic"){
   P$SimStep <- 1
   UsedP <- paste0(names(P), "=", P)
@@ -386,7 +379,6 @@ SaveParam <- function(P, folderName, fileName="Parameters", type="Basic"){
 #' @param filePath the pather where a .SEMP is located
 #' @keywords read-write-run
 #' @export
-#' ReloadParam()
 ReloadParam <- function(filePath){
   Raw <- read.table(filePath, sep="=", as.is=TRUE)
   Final <- rbind.data.frame(Raw$V2, stringsAsFactors=FALSE)
@@ -420,8 +412,6 @@ ReloadParam <- function(filePath){
 #' P3 <- DefineParameters(numSim=600, SaveMatch = TRUE)
 #' SEMSimulation(P2, insultP=P3, 'Insult', when=100, freq=2, save=FALSE, return = TRUE)
 #' @export
-#' SEMSimulation()
-
 SEMSimulation <- function(P, type='Basic', folderName=NA, save=TRUE, return=FALSE, verbose=TRUE, ...){
   Time <- proc.time()
   MiscArgs <- list(...)
@@ -491,7 +481,6 @@ SEMSimulation <- function(P, type='Basic', folderName=NA, save=TRUE, return=FALS
 #' @family Sim Functions
 #' @keywords read-write-run
 #' @export
-#' BasicSimulation()
 BasicSimulation <- function(P, freq=1, saveInfo){
   if(is.null(freq)){
     freq <- 1
@@ -534,7 +523,6 @@ BasicSimulation <- function(P, freq=1, saveInfo){
 #' @family Sim Functions
 #' @keywords read-write-run
 #' @export
-#' LightSimulation()
 LightSimulation <- function(P, freq=200, saveInfo){
   if(is.null(freq)){
     freq <- 200
@@ -580,7 +568,6 @@ LightSimulation <- function(P, freq=200, saveInfo){
 #' @family Sim Functions
 #' @keywords read-write-run
 #' @export
-#' InsultSimulation()
 InsultSimulation <- function(P, insultP, when, freq=200, saveInfo){
   CheckInsultPs(P, insultP)
   if(is.null(freq)){
@@ -639,7 +626,6 @@ InsultSimulation <- function(P, insultP, when, freq=200, saveInfo){
 #' @family Sim Functions
 #' @keywords error-check
 #' @export
-#' InsultSimulation()
 CheckInsultPs <-function(P, insultP){
   if(P$R != insultP$R ||
      P$C != insultP$C ||
