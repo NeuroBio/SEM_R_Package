@@ -25,6 +25,8 @@
 #' @param InherChancetoForgetNoise the area around the mode that can be sampled from for chance to forget inheritance and establishing the initial distribution
 #' @param ChancetoForgetLimits the absolute min and max values that the chance to forget can be
 #' @param ListeningThreshold the max absolute number or fraction of syllables a bird hears from one oblique tutor
+#' @param FatherListeningThreshold the max absolute number or fraction of syllables a bird hears from his father tutor
+#' @param MinLearnedSyls when either listenign threshodl is less than 0, this is the number of syllables a bird hears from his tutor before the fraction is applied
 #' @param EncounterSuccess the chance that a male finds suitable tutors
 #' @param LearningPenalty an artitrary scale for how severly longer learning is punished
 #' @param AgeDeath whether to model death on a type II survival curve (TRUE) or random death (FALSE)
@@ -39,7 +41,8 @@
 #' @param OverLearn whether males overlearn from many tutors as chicks
 #' @param OverLearnNoTut the number of tutors sampled in the overlearning strategy
 #' @param VerticalLearnCutOff this minimum value the learning window can be while still allowing males to learn vertically.
-#' @param ObliqueLearning whther the population undergoes oblique learning (TRUE) or not (FALSE)
+#' @param ObliqueLearning whether the population undergoes oblique learning (TRUE) or not (FALSE)
+#' @param VerticalLearning whether the population undergoes vertical learning (TRUE) or not (FALSE)
 #' @param RepSizePrefer the fraction of female preference dedicated to larger repertoires
 #' @param LogScale whether females percieve repertoire size on a natural log scale (TRUE) or not (FALSE)
 #' @param MatchPrefer the fraction of female preference dedicated to template matching
@@ -68,10 +71,13 @@ DefineParameters <- function(Rows=20, Cols=20, Steps=1,
                              MaxAge=20, InitialLearningThreshold=2, InherLearningNoise=.25, LearningLimits=c(0,MaxAge),
                              InitialChancetoInvent=.1, InherChancetoInventNoise=0, ChancetoInventLimits=c(0,1),
                              InitialChancetoForget=.2, InherChancetoForgetNoise=0, ChancetoForgetLimits=c(0,1),
-                             ListeningThreshold=7, EncounterSuccess=.95,
-                             LearningPenalty=.75, AgeDeath=TRUE, PrcntRandomDeath=.1, DeathThreshold=1, ChickSurvival=.3,
-                             LocalBreed=FALSE, LocalTutor=FALSE, LearnerStrategy="Add", ConsensusNoTut=8, ConsensusStrategy="Conform",
-                             OverLearn=FALSE, OverLearnNoTut=3, VerticalLearnCutOff=.25, ObliqueLearning=TRUE,
+                             ListeningThreshold=7, FatherListeningThreshold=.999, MinLearnedSyls=7,
+                             EncounterSuccess=.95, LearningPenalty=.75, AgeDeath=TRUE,
+                             PrcntRandomDeath=.1, DeathThreshold=1, ChickSurvival=.3,
+                             LocalBreed=FALSE, LocalTutor=FALSE, LearnerStrategy="Add",
+                             ConsensusNoTut=8, ConsensusStrategy="Conform",
+                             OverLearn=FALSE, OverLearnNoTut=3, VerticalLearnCutOff=.25,
+                             ObliqueLearning=TRUE, VerticalLearning=TRUE,
                              RepSizePrefer=1, LogScale=TRUE, MatchPrefer=0, UniformMatch=TRUE, MatchScale=1,
                              Dialects=1, MaleDialects="None", FemaleEvolve=FALSE, ChooseMate=FALSE,
                              SaveMatch=NA, SaveAccuracy=NA, SaveLearningThreshold=NA, SaveChancetoInvent=NA, SaveChancetoForget=NA,
@@ -118,13 +124,15 @@ DefineParameters <- function(Rows=20, Cols=20, Steps=1,
                            MinCtI=ChancetoInventLimits[1], MaxCtI=ChancetoInventLimits[2],
                            CtF0=InitialChancetoForget, ICtFN=InherChancetoForgetNoise,
                            MinCtF=ChancetoForgetLimits[1], MaxCtF=ChancetoForgetLimits[2],
-                           LisThrsh=ListeningThreshold, EnSuc=EncounterSuccess,
+                           LisThrsh=ListeningThreshold, FLisThrsh=FatherListeningThreshold,
+                           MinLrnSyl=MinLearnedSyls, EnSuc=EncounterSuccess,
                            Lpen=LearningPenalty, DStrat=AgeDeath, PDead=PrcntRandomDeath,
                            DeadThrsh=DeathThreshold, Pc=ChickSurvival, InitProp=InitProp,
                            ScopeB=LocalBreed, ScopeT=LocalTutor,
                            Consen=Consensus, ConsenS=ConsensusStrategy, Add=Add, Forget=Forget,
                            ConNoTut=ConsensusNoTut, OvrLrn=OverLearn, OLNoTut=OverLearnNoTut,
-                           Obliq=ObliqueLearning, VertLrnCut=VerticalLearnCutOff,
+                           Obliq=ObliqueLearning, Vert=VerticalLearning,
+                           VertLrnCut=VerticalLearnCutOff,
                            RepPref=RepSizePrefer, LogScl=LogScale, MatPref=MatchPrefer,
                            NoisePref=1-(RepSizePrefer + MatchPrefer), UniMat=UniformMatch, MScl=MatchScale,
                            Dial=Dialects, MDial=MaleDialects, FEvo=FemaleEvolve, ChoMate=ChooseMate,

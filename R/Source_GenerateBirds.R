@@ -145,7 +145,11 @@ GenerateChicks <- function(P, fatherInd, territorialMales, vacancy){
   }else{Males[,"ChanceFor"] <- Fathers$ChanceFor}
 
   #Song inherited from father based on chick accuracy
-  InherSong <- VerticalSongLearning(P, MSongs, Males)
+  if(P$Vert){
+    InherSong <- VerticalSongLearning(P, MSongs, Males)
+  }else{
+    InherSong <- matrix(0, nrow=length(fatherInd), ncol=P$MaxRSize)
+  }
   Males[,"SylRep"] <- rowSums(InherSong)
 
   #Generate names if required

@@ -13,19 +13,20 @@ DefineParameters(Rows = 20, Cols = 20, Steps = 1,
   InherChancetoInventNoise = 0, ChancetoInventLimits = c(0, 1),
   InitialChancetoForget = 0.2, InherChancetoForgetNoise = 0,
   ChancetoForgetLimits = c(0, 1), ListeningThreshold = 7,
+  FatherListeningThreshold = 0.999, MinLearnedSyls = 7,
   EncounterSuccess = 0.95, LearningPenalty = 0.75, AgeDeath = TRUE,
   PrcntRandomDeath = 0.1, DeathThreshold = 1, ChickSurvival = 0.3,
   LocalBreed = FALSE, LocalTutor = FALSE, LearnerStrategy = "Add",
   ConsensusNoTut = 8, ConsensusStrategy = "Conform",
   OverLearn = FALSE, OverLearnNoTut = 3, VerticalLearnCutOff = 0.25,
-  ObliqueLearning = TRUE, RepSizePrefer = 1, LogScale = TRUE,
-  MatchPrefer = 0, UniformMatch = TRUE, MatchScale = 1,
-  Dialects = 1, MaleDialects = "None", FemaleEvolve = FALSE,
-  ChooseMate = FALSE, SaveMatch = NA, SaveAccuracy = NA,
-  SaveLearningThreshold = NA, SaveChancetoInvent = NA,
-  SaveChancetoForget = NA, SaveNames = FALSE, SaveAge = FALSE,
-  SaveMaleSong = FALSE, SaveFemaleSong = FALSE, numSim = 1000,
-  Seed = NA)
+  ObliqueLearning = TRUE, VerticalLearning = TRUE, RepSizePrefer = 1,
+  LogScale = TRUE, MatchPrefer = 0, UniformMatch = TRUE,
+  MatchScale = 1, Dialects = 1, MaleDialects = "None",
+  FemaleEvolve = FALSE, ChooseMate = FALSE, SaveMatch = NA,
+  SaveAccuracy = NA, SaveLearningThreshold = NA,
+  SaveChancetoInvent = NA, SaveChancetoForget = NA,
+  SaveNames = FALSE, SaveAge = FALSE, SaveMaleSong = FALSE,
+  SaveFemaleSong = FALSE, numSim = 1000, Seed = NA)
 }
 \arguments{
 \item{Rows}{the number of rows in the bird matrix}
@@ -68,6 +69,10 @@ DefineParameters(Rows = 20, Cols = 20, Steps = 1,
 
 \item{ListeningThreshold}{the max absolute number or fraction of syllables a bird hears from one oblique tutor}
 
+\item{FatherListeningThreshold}{the max absolute number or fraction of syllables a bird hears from his father tutor}
+
+\item{MinLearnedSyls}{when either listenign threshodl is less than 0, this is the number of syllables a bird hears from his tutor before the fraction is applied}
+
 \item{EncounterSuccess}{the chance that a male finds suitable tutors}
 
 \item{LearningPenalty}{an artitrary scale for how severly longer learning is punished}
@@ -96,7 +101,9 @@ DefineParameters(Rows = 20, Cols = 20, Steps = 1,
 
 \item{VerticalLearnCutOff}{this minimum value the learning window can be while still allowing males to learn vertically.}
 
-\item{ObliqueLearning}{whther the population undergoes oblique learning (TRUE) or not (FALSE)}
+\item{ObliqueLearning}{whether the population undergoes oblique learning (TRUE) or not (FALSE)}
+
+\item{VerticalLearning}{whether the population undergoes vertical learning (TRUE) or not (FALSE)}
 
 \item{RepSizePrefer}{the fraction of female preference dedicated to larger repertoires}
 

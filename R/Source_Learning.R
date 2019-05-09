@@ -53,7 +53,6 @@ LearningProcess <- function(P, newSongs, tutorSyllables, accuracy, chanceInv){
 VerticalSongLearning <- function(P, templates, chicks){
   #Method by which chicks inherit their father's song; accuracy
   #based on inherited accuracy and parameterized noise
-
   dim(templates) <- c(nrow=nrow(chicks), P$MaxRSize)#this line allows the code to work for a single father.
   NewSongs <- matrix(0,ncol=P$MaxRSize, nrow=nrow(chicks))
   Learn <- 1:nrow(chicks)
@@ -62,6 +61,7 @@ VerticalSongLearning <- function(P, templates, chicks){
       Learn <- Learn[-NoLearn]
   }
 
+  templates <- ListeningTest(P, templates[Learn,], P$FLisThrsh)
   FatherSyllables <- vector(mode="list",length=length(Learn))
   for(i in seq_along(Learn)){
     FatherSyllables[[i]] <- which(templates[Learn[i],] == 1)
@@ -124,7 +124,7 @@ ConsensusLearning <- function(P, population, learners, vacancy){
   ConsensusSong <- matrix(0, nrow=length(learners), ncol=P$MaxRSize)
   AddSyllables <- vector(mode="list", length=length(learners))
   for(i in 1:nrow(ConsensusSong)){
-    TutorSongs <- ListeningTest(P, population$MSongs[Tutors[i,],])
+    TutorSongs <- ListeningTest(P, population$MSongs[Tutors[i,],], P$LisThrsh)
     ConsensusSong[i,] <- colSums(TutorSongs)
     Fractional <- CalcFractional(P, ConsensusSong[i,])
     Test <- (Fractional)-runif(P$MaxRSize)
@@ -329,7 +329,7 @@ OneTutorLearning <- function(P, population, tutors, learners){
   #Set up for the Learning process
   LearnerSongs <- matrix(population$MSongs[learners,],ncol=P$MaxRSize, nrow=length(learners))
   TutorSongs <- matrix(population$MSongs[tutors,],ncol=P$MaxRSize, nrow=length(tutors))
-  TutorSongs <- ListeningTest(P, TutorSongs)
+  TutorSongs <- ListeningTest(P, TutorSongs, P$LisThrsh)
   if(P$Add){
   #Allow for a rep of up to LisThrsh syllables to learn from
     AddSyllables <- vector(mode="list",length=length(tutors))
@@ -362,20 +362,23 @@ OneTutorLearning <- function(P, population, tutors, learners){
 #' @param songs a matrix of tutor syllable vectors
 #' @keywords song-learning
 #' @export
-ListeningTest <- function(P, songs){
+ListeningTest <- function(P, songs, LisThrsh){
   #Test whether repsize beyond listening threshold
-  if(P$LisThrsh >= .999 && P$LisThrsh <1  || P$LisThrsh == P$MaxRSize){#learn full rep
+  if(LisThrsh >= .999 && LisThrsh <1){#learn full rep
     return(songs)
   }
-  if(P$LisThrsh%%1 == 0){#set number parameter
-    PartialReps <- which(rowSums(songs) > P$LisThrsh)
+  if(LisThrsh%%1 == 0){#set number parameter
+    PartialReps <- which(rowSums(songs) > LisThrsh)
     WillLearn <- rep(P$LisThrsh, nrow(songs))
 
   }else{
     PartialReps <- 1:nrow(songs)
-    WillLearn <- rowSums(songs)*P$LisThrsh
-    ChanceLearn <- ifelse(PartialReps%%1 >= runif(length(ChanceLearn)),1,0)
+    CanLearn <- rowSums(songs)
+    WillLearn <- (CanLearn-P$MinLrnSyl)*LisThrsh+P$MinLrnSyl #main equation
+    ChanceLearn <- ifelse(WillLearn%%1 >= runif(length(WillLearn)),1,0) #chance to learn
     WillLearn <- floor(WillLearn) + ChanceLearn
+    Overflow <- which(ifelse(WillLearn > CanLearn, TRUE, FALSE))#prevent overlearning
+    WillLearn[Overflow] <- CanLearn[Overflow]
     Remove <- which(WillLearn == 0)
     if (length(Remove)> 0){
       WillLearn <- WillLearn[-Remove]

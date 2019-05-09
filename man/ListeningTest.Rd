@@ -4,7 +4,7 @@
 \alias{ListeningTest}
 \title{Listening Test}
 \usage{
-ListeningTest(P, songs)
+ListeningTest(P, songs, LisThrsh)
 }
 \arguments{
 \item{P}{a list of parameters}
