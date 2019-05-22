@@ -36,7 +36,7 @@ SEMSimulation(P2, insultP=P3, 'Insult', when=100, freq=2, save=FALSE, return = T
 }
 \seealso{
 Other Sim Functions: \code{\link{BasicSimulation}},
-  \code{\link{CheckInsultPs}},
+  \code{\link{CheckInsultPs}}, \code{\link{GetSaveInfo}},
   \code{\link{InsultSimulation}},
   \code{\link{LightSimulation}}
 }

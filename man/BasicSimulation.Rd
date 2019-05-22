@@ -4,20 +4,19 @@
 \alias{BasicSimulation}
 \title{Basic Simulation}
 \usage{
-BasicSimulation(P, freq = 1, saveInfo)
+BasicSimulation(P, freq = 1)
 }
 \arguments{
 \item{P}{a list of parameters}
 
 \item{freq}{how often to sample data from the simulation}
-
-\item{saveInfo}{a matrix of saving data made in the simulation wrapper}
 }
 \description{
 Runs a simulation where individual values are saved for every timestep.  No parameters change during the simulation.
 }
 \seealso{
 Other Sim Functions: \code{\link{CheckInsultPs}},
+  \code{\link{GetSaveInfo}},
   \code{\link{InsultSimulation}},
   \code{\link{LightSimulation}},
   \code{\link{SEMSimulation}}

@@ -437,25 +437,13 @@ SEMSimulation <- function(P, type='Basic', folderName=NA, save=TRUE, return=FALS
     }
   }
 
-
-  #Set up save variables
-  Params <- c(TRUE, P$SMat, P$SAcc, P$SLrn, P$SCtI, P$SCtF,
-                P$SNam, P$SNam, P$SAge, P$SMSng, P$SFSng)
-  Names <- c("SylRep", "Match", "Acc", "LrnThsh", "ChanceInv", "ChanceFor",
-                 "Name", "FatherName", "Age", "MSong", "FSong")
-  SaveInfo <- data.frame(Name=Names, Has=Params,
-                          Size=c(rep(P$numBirds,9), P$MaxRSize, P$MaxRSize),
-                          Location=c(rep('Males',9), 'MSongs', 'FSongs'),
-                          Sublocation=c(Names[1:9], NA, NA), stringsAsFactors = FALSE)
-  SaveInfo <- SaveInfo[SaveInfo$Has,]
-
   #Run Simulations
   if(type == 'Basic'){
-    Data <- BasicSimulation(P, MiscArgs$freq, SaveInfo)
+    Data <- BasicSimulation(P, MiscArgs$freq)
   }else if(type == 'Light'){
-    Data <- LightSimulation(P, MiscArgs$freq, SaveInfo)
+    Data <- LightSimulation(P, MiscArgs$freq)
   }else if(type == 'Insult'){
-    Data <- InsultSimulation(P, MiscArgs$insultP, MiscArgs$when, MiscArgs$freq, SaveInfo)
+    Data <- InsultSimulation(P, MiscArgs$insultP, MiscArgs$when, MiscArgs$freq)
   }else{
     stop("Simulation type not recognized; check your spelling and case!")
   }
@@ -480,42 +468,64 @@ SEMSimulation <- function(P, type='Basic', folderName=NA, save=TRUE, return=FALS
   }
 }
 
-#' Basic Simulation
+
+
+#' Get Save Info
 #'
-#' Runs a simulation where individual values are saved for every timestep.  No parameters change during the simulation.
+#' Generates the information to form appropriate datastructures
 #' @param P a list of parameters
-#' @param freq how often to sample data from the simulation
-#' @param saveInfo a matrix of saving data made in the simulation wrapper
 #' @family Sim Functions
 #' @keywords read-write-run
 #' @export
-BasicSimulation <- function(P, freq=1, saveInfo){
+GetSaveInfo <- function(P){
+  Params <- c(TRUE, P$SMat, P$SAcc, P$SLrn, P$SCtI, P$SCtF,
+              P$SNam, P$SNam, P$SAge, P$SMSng, P$SFSng)
+  Names <- c("SylRep", "Match", "Acc", "LrnThsh", "ChanceInv", "ChanceFor",
+             "Name", "FatherName", "Age", "MSong", "FSong")
+  SaveInfo <- data.frame(Name=Names, Has=Params,
+                         Size=c(rep(P$numBirds,9), P$MaxRSize, P$MaxRSize),
+                         Location=c(rep('Males',9), 'MSongs', 'FSongs'),
+                         Sublocation=c(Names[1:9], NA, NA), stringsAsFactors = FALSE)
+  return(SaveInfo[SaveInfo$Has,])
+}
+
+
+
+#' Basic Simulation
+#'
+#' Runs a simulation where individual values are saved for every time step.  No parameters change during the simulation.
+#' @param P a list of parameters
+#' @param freq how often to sample data from the simulation
+#' @family Sim Functions
+#' @keywords read-write-run
+#' @export
+BasicSimulation <- function(P, freq=1){
   if(is.null(freq)){
     freq <- 1
   }
-
+  SaveInfo <- GetSaveInfo(P)
   Population <- GenerateFounderMales(P)
   #Make Matricies and save initial data
-  eval(parse(text=paste0(saveInfo$Name, "<-matrix(0,nrow=", saveInfo$Size,
+  eval(parse(text=paste0(SaveInfo$Name, "<-matrix(0,nrow=", SaveInfo$Size,
                          ", ncol=", (P$nSim/freq)+1, ")")))
-  eval(parse(text=paste0(saveInfo$Name,"[,", 1, "]<-",
-                         ifelse(is.na(saveInfo$Sublocation),
-                                paste0("colSums(Population$", saveInfo$Location, ")"),
-                                paste0("Population$", saveInfo$Location, "$", saveInfo$Sublocation)))))
+  eval(parse(text=paste0(SaveInfo$Name,"[,", 1, "]<-",
+                         ifelse(is.na(SaveInfo$Sublocation),
+                                paste0("colSums(Population$", SaveInfo$Location, ")"),
+                                paste0("Population$", SaveInfo$Location, "$", SaveInfo$Sublocation)))))
   #Run the simulation
   Counter <- 2
   for(i in 2:(P$nSim+1)){
     Population <- BirthDeathCycle(P, Population)
     if(i%%freq == 0){#Save
-      eval(parse(text=paste0(saveInfo$Name,"[,", Counter, "]<-",
-                             ifelse(is.na(saveInfo$Sublocation),
-                                    paste0("colSums(Population$", saveInfo$Location, ")"),
-                                    paste0("Population$", saveInfo$Location, "$", saveInfo$Sublocation)))))
+      eval(parse(text=paste0(SaveInfo$Name,"[,", Counter, "]<-",
+                             ifelse(is.na(SaveInfo$Sublocation),
+                                    paste0("colSums(Population$", SaveInfo$Location, ")"),
+                                    paste0("Population$", SaveInfo$Location, "$", SaveInfo$Sublocation)))))
       Counter <- Counter+1
     }
     P$SimStep <- i
   }
-  eval(parse(text=paste0("Data <- list(", paste0(saveInfo$Name, "=", saveInfo$Name, collapse = ","), ")" )))
+  eval(parse(text=paste0("Data <- list(", paste0(SaveInfo$Name, "=", SaveInfo$Name, collapse = ","), ")" )))
   return(Data)
 }
 
@@ -524,42 +534,42 @@ BasicSimulation <- function(P, freq=1, saveInfo){
 
 #' Light Simulation
 #'
-#' Runs a simulation where the only average values are saved every [freq] timestep.  No parameters change during the simulation.
+#' Runs a simulation where the only average values are saved every [freq] time step.  No parameters change during the simulation.
 #' @param P a list of parameters
 #' @param freq how often to sample data from the simulation
-#' @param saveInfo a matrix of saving data made in the simulation wrapper
 #' @family Sim Functions
 #' @keywords read-write-run
 #' @export
-LightSimulation <- function(P, freq=200, saveInfo){
+LightSimulation <- function(P, freq=200){
   if(is.null(freq)){
     freq <- 200
   }
 
+  SaveInfo <- GetSaveInfo(P)
   Population <- GenerateFounderMales(P)
   #Make Matricies and save initial data
-  eval(parse(text=paste0(saveInfo$Name, "<-matrix(0,nrow=",
-                         ifelse(saveInfo$Name %in% c("MSong", "FSong"), saveInfo$Size, 1),
+  eval(parse(text=paste0(SaveInfo$Name, "<-matrix(0,nrow=",
+                         ifelse(SaveInfo$Name %in% c("MSong", "FSong"), SaveInfo$Size, 1),
                          ", ncol=", (P$nSim/freq)+1, ")")))
-  eval(parse(text=paste0(saveInfo$Name,"[,", 1, "]<-",
-                         ifelse(is.na(saveInfo$Sublocation),
-                                paste0("colSums(Population$", saveInfo$Location, ")"),
-                                paste0("mean(Population$", saveInfo$Location, "$", saveInfo$Sublocation, ")")))))
+  eval(parse(text=paste0(SaveInfo$Name,"[,", 1, "]<-",
+                         ifelse(is.na(SaveInfo$Sublocation),
+                                paste0("colSums(Population$", SaveInfo$Location, ")"),
+                                paste0("mean(Population$", SaveInfo$Location, "$", SaveInfo$Sublocation, ")")))))
 
   #Run the simulation
   Counter <- 2
   for(i in 2:(P$nSim+1)){
     Population <- BirthDeathCycle(P, Population)
     if(i%%freq == 0){#Save
-      eval(parse(text=paste0(saveInfo$Name,"[,", Counter, "]<-",
-                             ifelse(is.na(saveInfo$Sublocation),
-                                    paste0("colSums(Population$", saveInfo$Location, ")"),
-                                    paste0("mean(Population$", saveInfo$Location, "$", saveInfo$Sublocation, ")")))))
+      eval(parse(text=paste0(SaveInfo$Name,"[,", Counter, "]<-",
+                             ifelse(is.na(SaveInfo$Sublocation),
+                                    paste0("colSums(Population$", SaveInfo$Location, ")"),
+                                    paste0("mean(Population$", SaveInfo$Location, "$", SaveInfo$Sublocation, ")")))))
       Counter <- Counter+1
     }
     P$SimStep <- i
   }
-  eval(parse(text=paste0("Data <- list(", paste0(saveInfo$Name, "=", saveInfo$Name, collapse = ","), ")" )))
+  eval(parse(text=paste0("Data <- list(", paste0(SaveInfo$Name, "=", SaveInfo$Name, collapse = ","), ")" )))
   return(Data)
 }
 
@@ -567,30 +577,30 @@ LightSimulation <- function(P, freq=200, saveInfo){
 
 #' Insult Simulation
 #'
-#' Runs a simulation where the only average values are saved every [freq] timestep.  Parameters change at timestep [when].
+#' Runs a simulation where the only average values are saved every [freq] time step.  Parameters change from P to insultP at time step [when].
 #' @param P a list of parameters
-#' @param insultP a list of parameters to switch to at timestep [when]
-#' @param when the timestep at which to introduce the insult
+#' @param insultP a list of parameters to switch to at time step [when]
+#' @param when the time step at which to introduce the insult
 #' @param freq how often to sample data from the simulation
-#' @param saveInfo a matrix of saving data made in the simulation wrapper
 #' @family Sim Functions
 #' @keywords read-write-run
 #' @export
-InsultSimulation <- function(P, insultP, when, freq=200, saveInfo){
+InsultSimulation <- function(P, insultP, when, freq=200){
   CheckInsultPs(P, insultP)
   if(is.null(freq)){
     freq <- 200
   }
 
+  SaveInfo <- GetSaveInfo(P)
   Population <- GenerateFounderMales(P)
   #Make Matricies and save initial data
-  eval(parse(text=paste0(saveInfo$Name, "<-matrix(0,nrow=",
-                         ifelse(saveInfo$Name %in% c("MSong", "FSong"), saveInfo$Size, 1),
+  eval(parse(text=paste0(SaveInfo$Name, "<-matrix(0,nrow=",
+                         ifelse(SaveInfo$Name %in% c("MSong", "FSong"), SaveInfo$Size, 1),
                          ", ncol=", (P$nSim/freq)+1, ")")))
-  eval(parse(text=paste0(saveInfo$Name,"[,", 1, "]<-",
-                         ifelse(is.na(saveInfo$Sublocation),
-                                paste0("colSums(Population$", saveInfo$Location, ")"),
-                                paste0("mean(Population$", saveInfo$Location, "$", saveInfo$Sublocation, ")")))))
+  eval(parse(text=paste0(SaveInfo$Name,"[,", 1, "]<-",
+                         ifelse(is.na(SaveInfo$Sublocation),
+                                paste0("colSums(Population$", SaveInfo$Location, ")"),
+                                paste0("mean(Population$", SaveInfo$Location, "$", SaveInfo$Sublocation, ")")))))
 
 
 
@@ -612,15 +622,15 @@ InsultSimulation <- function(P, insultP, when, freq=200, saveInfo){
     #Complete a cycle and save data
      Population <- BirthDeathCycle(P, Population)
     if(i%%freq == 0){#Save
-      eval(parse(text=paste0(saveInfo$Name,"[,", Counter, "]<-",
-                             ifelse(is.na(saveInfo$Sublocation),
-                                    paste0("colSums(Population$", saveInfo$Location, ")"),
-                                    paste0("mean(Population$", saveInfo$Location, "$", saveInfo$Sublocation, ")")))))
+      eval(parse(text=paste0(SaveInfo$Name,"[,", Counter, "]<-",
+                             ifelse(is.na(SaveInfo$Sublocation),
+                                    paste0("colSums(Population$", SaveInfo$Location, ")"),
+                                    paste0("mean(Population$", SaveInfo$Location, "$", SaveInfo$Sublocation, ")")))))
       Counter <- Counter+1
     }
     P$SimStep <- i
   }
-  eval(parse(text=paste0("Data <- list(", paste0(saveInfo$Name, "=", saveInfo$Name, collapse = ","), ")" )))
+  eval(parse(text=paste0("Data <- list(", paste0(SaveInfo$Name, "=", SaveInfo$Name, collapse = ","), ")" )))
   return(Data)
 }
 
@@ -630,7 +640,7 @@ InsultSimulation <- function(P, insultP, when, freq=200, saveInfo){
 #'
 #' Tests whether the initial and insult parameters are compatable.
 #' @param P a list of parameters
-#' @param insultP a list of parameters to switch to at timestep [when]
+#' @param insultP a list of parameters to switch to at time step [when]
 #' @family Sim Functions
 #' @keywords error-check
 #' @export

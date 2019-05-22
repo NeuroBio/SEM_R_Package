@@ -4,7 +4,7 @@
 \alias{InsultSimulation}
 \title{Insult Simulation}
 \usage{
-InsultSimulation(P, insultP, when, freq = 200, saveInfo)
+InsultSimulation(P, insultP, when, freq = 200)
 }
 \arguments{
 \item{P}{a list of parameters}
@@ -14,15 +14,13 @@ InsultSimulation(P, insultP, when, freq = 200, saveInfo)
 \item{when}{the timestep at which to introduce the insult}
 
 \item{freq}{how often to sample data from the simulation}
-
-\item{saveInfo}{a matrix of saving data made in the simulation wrapper}
 }
 \description{
 Runs a simulation where the only average values are saved every [freq] timestep.  Parameters change at timestep [when].
 }
 \seealso{
 Other Sim Functions: \code{\link{BasicSimulation}},
-  \code{\link{CheckInsultPs}},
+  \code{\link{CheckInsultPs}}, \code{\link{GetSaveInfo}},
   \code{\link{LightSimulation}},
   \code{\link{SEMSimulation}}
 }

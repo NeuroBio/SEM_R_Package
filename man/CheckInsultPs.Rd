@@ -16,6 +16,7 @@ Tests whether the initial and insult parameters are compatable.
 }
 \seealso{
 Other Sim Functions: \code{\link{BasicSimulation}},
+  \code{\link{GetSaveInfo}},
   \code{\link{InsultSimulation}},
   \code{\link{LightSimulation}},
   \code{\link{SEMSimulation}}
