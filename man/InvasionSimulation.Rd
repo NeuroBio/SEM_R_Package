@@ -13,7 +13,7 @@ InvasionSimulation(P, numInvader, trait, stat, when)
 
 \item{trait}{the stat to change: LrnThsh, Acc, ChanceInv, or ChanceFor}
 
-\item{when}{the time step at which to introduce the insult}
+\item{when}{the time step at which to introduce the invaders}
 
 \item{invaderStat}{the stat to change: LrnThsh, Acc, ChanceInv, or ChanceFor}
 }

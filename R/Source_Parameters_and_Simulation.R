@@ -594,7 +594,7 @@ LightSimulation <- function(P, freq=200){
 #' @param numInvader the number of invaders to add
 #' @param trait the stat to change: LrnThsh, Acc, ChanceInv, or ChanceFor
 #' @param invaderStat the stat to change: LrnThsh, Acc, ChanceInv, or ChanceFor
-#' @param when the time step at which to introduce the insult
+#' @param when the time step at which to introduce the invaders
 #' @family Sim Functions
 #' @keywords read-write-run
 #' @export
