@@ -159,6 +159,7 @@ CheckP <- function(P){
   CheckMinMaxInt(P$MaxRSize, "InitialSylRepSize", 1)
   CheckMinMaxInt(P$PerROh, "PrcntSylOverhang", 0, int=FALSE)
   CheckMinMaxInt(P$MAge, "MaxAge", 3, P$MAge, TRUE)
+  CheckMinMaxInt(P$MinLrnSyl, "MinLearnedSyls", 0, P$MaxRSize, TRUE)
   CheckMinMaxInt(P$Lpen,"LearningPenalty", 0, int=FALSE)
   CheckMinMaxInt(P$EnSuc,"EncounterSuccess", 0, 1, TRUE, FALSE)
   CheckMinMaxInt(P$OLNoTut,"OverLearnNoTut", 1)
@@ -188,7 +189,7 @@ CheckP <- function(P){
   CheckBool(P$UniMat, "UniformMatch")
   CheckBool(P$ScopeB,"LocalBreed")
   CheckBool(P$ScopeT,"LocalTutor")
-
+  CheckBool(P$Vert, "VerticalLearning")
 
 
   #make sure all of the trait vals line up
@@ -236,6 +237,11 @@ CheckP <- function(P){
   }
   if((P$LisThrsh%%1 != 0 && P$LisThrsh > 1) || (P$LisThrsh > P$MaxRSize)  || P$LisThrsh < 0){
     stop(paste0("ListeningThreshold must either be an integer from 1 to MaxSylRepSize (", P$MaxRSize, ")",
+                "or a fraction representing a precentage.*
+                *If .999 or greater is typed, it is converted to 100%."))
+  }
+  if((P$FLisThrsh%%1 != 0 && P$FLisThrsh > 1) || (P$FLisThrsh > P$MaxRSize)  || P$FLisThrsh < 0){
+    stop(paste0("FatherListeningThreshold must either be an integer from 1 to MaxSylRepSize (", P$MaxRSize, ")",
                 "or a fraction representing a precentage.*
                 *If .999 or greater is typed, it is converted to 100%."))
   }
