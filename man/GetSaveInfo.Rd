@@ -14,8 +14,9 @@ Generates the information to form appropriate datastructures
 }
 \seealso{
 Other Sim Functions: \code{\link{BasicSimulation}},
-  \code{\link{CheckInsultPs}},
+  \code{\link{CheckInsultPs}}, \code{\link{CheckInvasion}},
   \code{\link{InsultSimulation}},
+  \code{\link{InvasionSimulation}},
   \code{\link{LightSimulation}},
   \code{\link{SEMSimulation}}
 }

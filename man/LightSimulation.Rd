@@ -12,12 +12,14 @@ LightSimulation(P, freq = 200)
 \item{freq}{how often to sample data from the simulation}
 }
 \description{
-Runs a simulation where the only average values are saved every [freq] timestep.  No parameters change during the simulation.
+Runs a simulation where the only average values are saved every [freq] time step.  No parameters change during the simulation.
 }
 \seealso{
 Other Sim Functions: \code{\link{BasicSimulation}},
-  \code{\link{CheckInsultPs}}, \code{\link{GetSaveInfo}},
+  \code{\link{CheckInsultPs}}, \code{\link{CheckInvasion}},
+  \code{\link{GetSaveInfo}},
   \code{\link{InsultSimulation}},
+  \code{\link{InvasionSimulation}},
   \code{\link{SEMSimulation}}
 }
 \concept{Sim Functions}

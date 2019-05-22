@@ -450,14 +450,20 @@ SEMSimulation <- function(P, type='Basic', folderName=NA, save=TRUE, return=FALS
     Data <- LightSimulation(P, MiscArgs$freq)
   }else if(type == 'Insult'){
     Data <- InsultSimulation(P, MiscArgs$insultP, MiscArgs$when, MiscArgs$freq)
+  }else if(type == 'Invasion'){
+    Data <- InvasionSimulation(P, MiscArgs$numInvader, MiscArgs$trait, MiscArgs$stat, MiscArgs$when)
   }else{
     stop("Simulation type not recognized; check your spelling and case!")
   }
 
   if(save){#write the data
-    eval(parse(text=paste0("write.csv(Data$",SaveInfo$Name,",file.path(folderName,'",
-                           SaveInfo$Name, ".csv'),row.names=FALSE)")))
-    SaveParam(P, folderName, type="Basic")
+    if(type == 'Invasion'){
+      write.csv(Data,file.path(folderName,'Invasion.csv'),row.names=FALSE)
+    }else{
+      eval(parse(text=paste0("write.csv(Data$",SaveInfo$Name,",file.path(folderName,'",
+                             SaveInfo$Name, ".csv'),row.names=FALSE)")))
+      SaveParam(P, folderName, type="Basic")
+    }
   }
 
   #return a sense of satisfaction
@@ -577,6 +583,95 @@ LightSimulation <- function(P, freq=200){
   }
   eval(parse(text=paste0("Data <- list(", paste0(SaveInfo$Name, "=", SaveInfo$Name, collapse = ","), ")" )))
   return(Data)
+}
+
+
+
+#' Invasion Simulation
+#'
+#' Runs an invasion simulation where the time to conversion and final average value of the trait is returned.  [numInvader] invaders have their [trait] changed to [invaderStat] and their age reset to 1 time step [when].  Simulation ends when invaders are expelled, take over, or P$nSim time steps have passed.
+#' @param P a list of parameters
+#' @param numInvader the number of invaders to add
+#' @param trait the stat to change: LrnThsh, Acc, ChanceInv, or ChanceFor
+#' @param invaderStat the stat to change: LrnThsh, Acc, ChanceInv, or ChanceFor
+#' @param when the time step at which to introduce the insult
+#' @family Sim Functions
+#' @keywords read-write-run
+#' @export
+InvasionSimulation <- function(P, numInvader, trait, stat, when){
+  P <- CheckInvasion(P, trait, stat)
+  Population <- GenerateFounderMales(P)
+
+  #Run simulation
+  for(i in 1:(when-1)){
+    #Complete a cycle
+    Population <- BirthDeathCycle(P, Population)
+    P$SimStep <- i
+  }
+
+  #Introduce invader(s)
+    Invaders <- sample(P$numBirds, numInvader)
+    Population$Males[Invaders, trait] <- stat
+    Population$Males[Invaders,'Age'] <- 1
+
+  for(i in 1:P$nSim){
+    Population <- BirthDeathCycle(P, Population)
+    if(length(unique(Population$Males[,trait]))== 1){
+      break
+    }
+  }
+  return(c(i, mean(Population$Males[,trait])))
+}
+#' Check Invasion
+#'
+#' Checks whether the noise for the [trait] was set to 0, and does so it not.  Also ensures that [stat] is within the range for the [trait]..
+#' @param P a list of parameters
+#' @param numInvader the number of invaders to add
+#' @param trait the stat to change: LrnThsh, Acc, ChanceInv, or ChanceFor
+#' @param invaderStat the stat to change: LrnThsh, Acc, ChanceInv, or ChanceFor
+#' @param when the time step at which to introduce the insult
+#' @param freq how often to sample data from the simulation
+#' @family Sim Functions
+#' @keywords read-write-run
+#' @export
+CheckInvasion <- function(P, trait, stat){
+  if(trait == "LrnThrsh"){
+    if(P$ILrnN != 0){
+      P$ILrnN <- 0
+      warning("ILrnN reset to 0")
+    }
+    if(stat > P$MaxLrn || stat < P$MinLrn){
+      stop("stat must be in the min and max bounds of trait")
+    }
+  }else if(trait == "Acc"){
+    if(P$IAccN != 0){
+      P$IAccN <- 0
+      warning("IAccN reset to 0")
+    }
+    if(stat > P$MaxAcc || stat < P$MinAcc){
+      stop("stat must be in the min and max bounds of trait")
+    }
+  }else if(trait == "ChanceInv"){
+    if(P$ICtIN != 0){
+      P$ICtIN <- 0
+      warning("ICtIN reset to 0")
+    }
+    if(stat > P$MaxCtI || stat < P$MinCtI){
+      stop("stat must be in the min and max bounds of trait")
+    }
+  }else if(trait == "ChanceFor"){
+    if(P$ICtFN != 0){
+      P$ICtFN <- 0
+      warning("ICtFN reset to 0")
+    }
+    if(stat > P$MaxCtF || stat < P$MinCtF){
+      stop("stat must be in the min and max bounds of trait")
+    }
+  }else{
+    stop("Unknown trait passed to invasion; Trait must be LrnThrsh, Acc, ChainceInv, or ChanceFor.")
+  }
+
+  return(P)
 }
 
 

@@ -9,15 +9,16 @@ CheckInsultPs(P, insultP)
 \arguments{
 \item{P}{a list of parameters}
 
-\item{insultP}{a list of parameters to switch to at timestep [when]}
+\item{insultP}{a list of parameters to switch to at time step [when]}
 }
 \description{
 Tests whether the initial and insult parameters are compatable.
 }
 \seealso{
 Other Sim Functions: \code{\link{BasicSimulation}},
-  \code{\link{GetSaveInfo}},
+  \code{\link{CheckInvasion}}, \code{\link{GetSaveInfo}},
   \code{\link{InsultSimulation}},
+  \code{\link{InvasionSimulation}},
   \code{\link{LightSimulation}},
   \code{\link{SEMSimulation}}
 }

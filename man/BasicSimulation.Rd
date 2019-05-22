@@ -12,12 +12,13 @@ BasicSimulation(P, freq = 1)
 \item{freq}{how often to sample data from the simulation}
 }
 \description{
-Runs a simulation where individual values are saved for every timestep.  No parameters change during the simulation.
+Runs a simulation where individual values are saved for every time step.  No parameters change during the simulation.
 }
 \seealso{
 Other Sim Functions: \code{\link{CheckInsultPs}},
-  \code{\link{GetSaveInfo}},
+  \code{\link{CheckInvasion}}, \code{\link{GetSaveInfo}},
   \code{\link{InsultSimulation}},
+  \code{\link{InvasionSimulation}},
   \code{\link{LightSimulation}},
   \code{\link{SEMSimulation}}
 }

@@ -36,8 +36,10 @@ SEMSimulation(P2, insultP=P3, 'Insult', when=100, freq=2, save=FALSE, return = T
 }
 \seealso{
 Other Sim Functions: \code{\link{BasicSimulation}},
-  \code{\link{CheckInsultPs}}, \code{\link{GetSaveInfo}},
+  \code{\link{CheckInsultPs}}, \code{\link{CheckInvasion}},
+  \code{\link{GetSaveInfo}},
   \code{\link{InsultSimulation}},
+  \code{\link{InvasionSimulation}},
   \code{\link{LightSimulation}}
 }
 \concept{Sim Functions}

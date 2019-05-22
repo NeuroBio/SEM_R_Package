@@ -9,18 +9,20 @@ InsultSimulation(P, insultP, when, freq = 200)
 \arguments{
 \item{P}{a list of parameters}
 
-\item{insultP}{a list of parameters to switch to at timestep [when]}
+\item{insultP}{a list of parameters to switch to at time step [when]}
 
-\item{when}{the timestep at which to introduce the insult}
+\item{when}{the time step at which to introduce the insult}
 
 \item{freq}{how often to sample data from the simulation}
 }
 \description{
-Runs a simulation where the only average values are saved every [freq] timestep.  Parameters change at timestep [when].
+Runs a simulation where the only average values are saved every [freq] time step.  Parameters change from P to insultP at time step [when].
 }
 \seealso{
 Other Sim Functions: \code{\link{BasicSimulation}},
-  \code{\link{CheckInsultPs}}, \code{\link{GetSaveInfo}},
+  \code{\link{CheckInsultPs}}, \code{\link{CheckInvasion}},
+  \code{\link{GetSaveInfo}},
+  \code{\link{InvasionSimulation}},
   \code{\link{LightSimulation}},
   \code{\link{SEMSimulation}}
 }
