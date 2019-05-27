@@ -398,7 +398,7 @@ ReloadParam <- function(filePath){
   Final <- rbind.data.frame(Raw$V2, stringsAsFactors=FALSE)
   names(Final) <- Raw$V1
   Log <- which(Final %in% c("TRUE", "FALSE", "True", "False"))
-  Log <- which(names(Final) %in% c("MDial", "ConsenS"))
+  Char <- which(names(Final) %in% c("MDial", "ConsenS"))
   suppressWarnings(Final[,-c(Char, Log)] <- as.numeric(Final[,-c(Char, Log)]))
   Final[,Log] <- as.logical(Final[,Log])
   return(Final)
