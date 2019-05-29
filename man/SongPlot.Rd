@@ -16,6 +16,6 @@ SongPlot(P, songs, thin = 10, male = TRUE)
 \item{male}{whether male songs are being plotted; affects the y-axis label}
 }
 \description{
-Shows the prevalence of each syllabel across time.  Darker color means that a syllable is more common.
+Shows the prevalence of each syllable across time.  Darker color means that a syllable is more common.
 }
 \keyword{stats-plotting}

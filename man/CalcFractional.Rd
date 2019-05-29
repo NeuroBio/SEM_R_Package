@@ -12,6 +12,6 @@ CalcFractional(P, consensusSong)
 \item{consensusSong}{vector of the number of tutors that sang each syllable.}
 }
 \description{
-Calculates the probability that a bird will learn a syllable depending on how many tutors it was heard from.
+Calculates the probability that a bird will learn a syllable depending on how many tutors that syllable was heard from.
 }
 \keyword{song-learning}

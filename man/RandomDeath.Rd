@@ -12,6 +12,6 @@ RandomDeath(P, population)
 \item{population}{the population of birds}
 }
 \description{
-Randomly picks a percentage of males in the population to die.  Current age is not a relevant factor in being chosen.
+Randomly picks a percentage of males in the population to die.  Current age is not a relevant factor in being chosen.  Chicks are as likely to be chosen as adults.
 }
 \keyword{death}

@@ -113,7 +113,7 @@ TraitPlot <- function(trait, xlab="Time Steps", ylab){
 
 #' Song Plot
 #'
-#' Shows the prevalence of each syllabel across time.  Darker color means that a syllable is more common.
+#' Shows the prevalence of each syllable across time.  Darker color means that a syllable is more common.
 #' @param P a list of parameters
 #' @param songs male or female song data from  simulation
 #' @param thin how often to sample a step of song data for the SongEvolve() plots; This is graphically intensive when there are a lot of syllables (default is 500), so ideally do not plot more than 100-200 time steps.

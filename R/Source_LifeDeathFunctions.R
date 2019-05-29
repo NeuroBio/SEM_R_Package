@@ -118,7 +118,7 @@ GetProbability <- function(P, population, usableInd){
 
 #' Random Death
 #'
-#' Randomly picks a percentage of males in the population to die.  Current age is not a relevant factor in being chosen.
+#' Randomly picks a percentage of males in the population to die.  Current age is not a relevant factor in being chosen.  Chicks are as likely to be chosen as adults.
 #' @param P a list of parameters
 #' @param population  the population of birds
 #' @keywords death
@@ -174,7 +174,7 @@ AgeDeath <- function(P, population){
 
 #' Learning Threshold Fitness Penalty
 #'
-#' Calculates the fitness penalty for longer learning which is used as the probability that a male will be chosen to die in that timestep.
+#' Calculates the fitness penalty for longer learning, which is used as the probability that a male will be chosen to die in that timestep.
 #' @param P a list of parameters
 #' @param lrnThsh a vector of learning thresholds in the population
 #' @keywords death

@@ -12,6 +12,6 @@ LearningThrshPenalty(P, lrnThsh)
 \item{lrnThsh}{a vector of learning thresholds in the population}
 }
 \description{
-Calculates the fitness penalty for longer learning which is used as the probability that a male will be chosen to die in that timestep.
+Calculates the fitness penalty for longer learning, which is used as the probability that a male will be chosen to die in that timestep.
 }
 \keyword{death}

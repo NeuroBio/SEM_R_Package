@@ -156,7 +156,7 @@ ConsensusLearning <- function(P, population, learners, vacancy){
 
 #' Calculate Consensus Fraction
 #'
-#' Calculates the probability that a bird will learn a syllable depending on how many tutors it was heard from.
+#' Calculates the probability that a bird will learn a syllable depending on how many tutors that syllable was heard from.
 #' @param P a list of parameters
 #' @param consensusSong vector of the number of tutors that sang each syllable.
 #' @keywords song-learning
@@ -193,7 +193,7 @@ OverLearn <- function(P, population, learners){
 #Misc
 #' Female Evolve
 #'
-#' Replaces females that lived on the same territory as a dead male.  New female song templates are created based on fathers that are different form the father that sired the male on her territory.  Fathers must be alive and know at least one syllable.  One created, the match between these new females and their males are recalculated.
+#' Replaces females that lived on the same territory as a dead male.  New female song templates are created based on fathers that are different from the father that sired the male on her territory.  Fathers must be alive and know at least one syllable.  One created, the match between these new females and their males are recalculated.
 #' @param P a list of parameters
 #' @param population the population of birds
 #' @param vacancy indicies of territories where male chicks were born
