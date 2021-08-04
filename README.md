@@ -1,4 +1,4 @@
-# Song Evolution Model
+# Song Evolution Model (R)
 
 ## Overview
 This is the R version of an agent-based model designed to simulate how different evolutionary pressures affect song and song learning.
