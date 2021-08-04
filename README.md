@@ -10,3 +10,6 @@ The Walkthrough explains the logic behind the model and includes a “Getting st
 
 ## Web App (implements the C# version of the library)
 https://neurobio.github.io/SEMWebApp/release/SEMWebApp/dist/
+
+## C# library version
+-[repository](https://github.com/NeuroBio/SongEvolutionModelLibrary)
