@@ -9,6 +9,7 @@ The Walkthrough explains the logic behind the model and includes a “Getting st
 -	[Function Manual](manual.pdf)
 
 ## Web App (implements the C# version of the library)
+![web app preview](https://github.com/NeuroBio/Portfolio/blob/main/assets/img/portfolio/project5.png)
 https://neurobio.github.io/SEMWebApp/release/SEMWebApp/dist/
 
 ## C# library version
