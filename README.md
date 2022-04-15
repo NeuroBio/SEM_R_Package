@@ -5,7 +5,7 @@ This is the R version of an agent-based model designed to simulate how different
 
 ## Documentation
 The Walkthrough explains the logic behind the model and includes a “Getting started” guide in section 2.3 Vignette.  This is where new users should start.  The Manual explains the functions and their arguments in detail, which may be helpful for advanced users.
--	[Walkthrough](RWalkThrough.pdf)
+-	[Walkthrough](https://github.com/NeuroBio/SEM_R_Package/blob/master/R_WalkThrough.pdf)
 -	[Function Manual](manual.pdf)
 
 ## Web App (implements the C# version of the library)
